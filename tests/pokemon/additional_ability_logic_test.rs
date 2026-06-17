@@ -618,6 +618,23 @@ fn test_baxcalibur_ice_maker_attaches_water_energy_to_active_water_pokemon() {
 }
 
 #[test]
+fn test_cloyster_shell_armor_reduces_damage_from_attacks() {
+    let mut game = get_test_game_with_board(
+        vec![PlayedCard::from_id(CardId::A1001Bulbasaur)
+            .with_energy(vec![EnergyType::Grass, EnergyType::Colorless])],
+        vec![PlayedCard::from_id(CardId::A1067Cloyster)],
+    );
+
+    game.apply_action(&Action {
+        actor: 0,
+        action: attack_action(CardId::A1001Bulbasaur, 0),
+        is_stack: false,
+    });
+
+    assert_eq!(game.get_state_clone().get_active(1).get_remaining_hp(), 90);
+}
+
+#[test]
 fn test_melmetal_hard_coat_reduces_damage_from_attacks() {
     let mut game = get_test_game_with_board(
         vec![PlayedCard::from_id(CardId::A1001Bulbasaur)
